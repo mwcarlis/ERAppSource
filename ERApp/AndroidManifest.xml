@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.erapp"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="14" />
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+<!-- MainActivity -->
+        <activity
+            android:name="com.example.erapp.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+<!-- RegistrationActivity -->        
+        <activity
+            android:name="com.example.erapp.RegisterActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.example.erapp.MainActivity" >
+        	<meta-data 
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.example.erapp.MainActivity"/>
+        </activity>
+        
+<!--  MainMenuActivity -->
+    	<activity
+        	android:name="com.example.erapp.MainMenuActivity"
+        	android:label="@string/app_name"
+        	android:parentActivityName="com.example.erapp.MainActivity" >
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.example.erapp.MainActivity" />
+    	</activity>  
+
+<!-- HistoryListViewActivity -->
+        <activity
+        	android:name="com.example.erapp.HistoryListViewActivity"
+        	android:label="@string/app_name"
+        	android:parentActivityName="com.example.erapp.MainMenuActivity" >
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.example.erapp.MainMenuActivity" />
+    	</activity>
+    	
+        
+    </application>
+
+</manifest>
