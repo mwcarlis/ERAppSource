@@ -3,9 +3,6 @@ package com.example.erapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.parse.Parse;
-import com.parse.ParseObject;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,10 +30,9 @@ public class HistoryListViewActivity extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history_list);
-		Parse.initialize(this, "LZreCmKLdoTzWHFIBYBtGqiU2vqhioxNDPsqlmFH", "NOZLD2078ZCYverfSOgHhp4GA3AfkvyTcrCB0zbY");
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+		
+		ERApplication.testFunction();
+
 		
 		ArrayList<HashMap<String,String>> expenseList=new ArrayList<HashMap<String, String>>();
 		Intent intent = getIntent();

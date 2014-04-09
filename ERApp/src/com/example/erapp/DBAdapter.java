@@ -1,30 +1,35 @@
 package com.example.erapp;
 
+import com.parse.Parse;
 import com.parse.ParseObject;
 
 public class DBAdapter {
-	static final String KEY_VENDOR="vendor";
-	static final String KEY_EXPENSE_DATE="expense_date";
-	static final String KEY_SUBMISSION_DATE="submission_date";
-	static final String KEY_PAYMENT_TYPE="payment_type";
-	static final String KEY_AMOUNT="amount";
-	static final String KEY_APPROVED="approved";
-	static final String KEY_RECEIPT="receipt";
-	static final String KEY_NOTES="notes";
-	static final String KEY_FNAME="first_name";
-	static final String KEY_LNAME="last_name";
-	static final String KEY_EMPLOYEE_ID="employee_id";
-	static final String KEY_JOB_TITLE="job_title";
-	static final String KEY_EXPENSE_HISTORY="expense_history";
-	static final String KEY_RANK="rank";
-	
+
 	
 	
 	boolean editExpense(String ID, Employee u) {
 		return false;
 	}
 	void setNewExpense(Expense a, Employee u){
+		/*
+		ParseObject ExpenseObj = new ParseObject(u.getFirstName() + u.getLastName());
+		ExpenseObj.put(KEY_FNAME, u.getFirstName());
+		ExpenseObj.put(KEY_LNAME, u.getLastName());
+		ExpenseObj.put(KEY_EMPLOYEE_ID, u.getID());
+		ExpenseObj.put(KEY_JOB_TITLE, u.getJobTitle());
+		ExpenseObj.put(KEY_RANK, u.getRank());
+		ExpenseObj.put(KEY_VENDOR, a.getVendor());
 		
+		ExpenseObj.put(KEY_VENDOR, a.getVendor());
+		//ExpenseObj.put(KEY_EXPENSE_DATE, a.getExpenseDate());
+		//ExpenseObj.put(KEY_SUBMISSION_DATE, a.getSubmissionDate());
+		ExpenseObj.put(KEY_PAYMENT_TYPE, a.getPaymentType());
+		ExpenseObj.put(KEY_AMOUNT, a.getAmount());
+		ExpenseObj.put(KEY_APPROVED, a.getApproved());
+		ExpenseObj.put(KEY_RECEIPT, a.getReceipt());
+		ExpenseObj.put(KEY_NOTES, a.getNotes());
+		ExpenseObj.saveInBackground();
+		*/
 	}
 	/*
 	ArrayList<Expense>(String ID, Employee u){

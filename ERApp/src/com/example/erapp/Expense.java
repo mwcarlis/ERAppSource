@@ -5,31 +5,31 @@ import java.util.Date;
 import android.graphics.Picture;
 
 public class Expense {
-String vendor;
-Date expenseDate;
-Date submissionDate;
-String paymentType;
-double amount;
-boolean approved;
-Picture receipt;
-String notes;
+	private String vendor;
+	private String expenseDate;
+	private String submissionDate;
+	private String paymentType;
+	private double amount;
+	private boolean approved;
+	private Picture receipt;
+	private String notes;
 
 
-public Expense(String vendInit, Date expenDateInit, Date subDateInit, String payTypeInit, double amountInit, boolean approvedInit, Picture receiptInit, String notesInit){
+public Expense(String vendInit, String expenDateInit, String subDateInit, String payTypeInit, double amountInit, boolean approvedInit, String notesInit){
 	vendor=vendInit; expenseDate=expenDateInit;
 	submissionDate=subDateInit; paymentType=payTypeInit;
 	amount=amountInit; approved=approvedInit;
-	receipt=receiptInit; notes=notesInit;
+	notes=notesInit;
 }
 
 //---- getVALUE() Functions ----//
 String getVendor(){
 	return vendor;
 }
-Date getExpenseDate(){
+String getExpenseDate(){
 	return expenseDate;
 }
-Date getSubmissionDate(){
+String getSubmissionDate(){
 	return submissionDate;
 }
 String getPaymentType(){
@@ -48,11 +48,12 @@ String getNotes(){
 	return notes;
 }// END getVALUE() Function //
 
+
 //---- setVALUE() Functions ----//
 void setVendor(String vend){
 	vendor=vend;
 }
-void setExpenseDate(Date expenDate){
+void setExpenseDate(String expenDate){
 	expenseDate=expenDate;
 }
 void setPaymentType(String payType){

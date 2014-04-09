@@ -1,5 +1,10 @@
 package com.example.erapp;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.parse.Parse;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +23,12 @@ public class MainMenuActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu);
 		Intent intent = getIntent();
+		Parse.initialize(this, "LZreCmKLdoTzWHFIBYBtGqiU2vqhioxNDPsqlmFH", "NOZLD2078ZCYverfSOgHhp4GA3AfkvyTcrCB0zbY");
+		
+		//DBAdapter myDBAdapt = new DBAdapter();
+
+		
+		//myDBAdapt.setNewExpense(myExpense, Myself);
 		
 		addItem = (Button)findViewById(R.id.addExpense);
 		history = (Button)findViewById(R.id.expenseHistory);
