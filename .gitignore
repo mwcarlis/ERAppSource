@@ -1,7 +1,10 @@
-/ERApp
 # Built application files
 *.apk
 *.ap_
+
+.classpath*
+.project*
+proguard-project.txt
 
 # Files for the Dalvik VM
 *.dex
