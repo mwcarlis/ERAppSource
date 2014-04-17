@@ -35,9 +35,5 @@ public class Accounts implements Comparable
 		return password;
 	}
 
-	
-	
-	
-	
-	
+		
 }

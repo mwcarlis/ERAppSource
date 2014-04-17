@@ -45,6 +45,9 @@ public class MainActivity extends Activity {
           attempts = (TextView)findViewById(R.id.textView5);
           attempts.setText(Integer.toString(counter));
           login = (Button)findViewById(R.id.button1);
+
+          
+          
           register = (Button)findViewById(R.id.register);
           register.setOnClickListener(new View.OnClickListener() 
           {
@@ -52,7 +55,7 @@ public class MainActivity extends Activity {
   			@Override
   			public void onClick(View v) 
   			{
-  				Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+  				Intent intent = new Intent(MainActivity.this, NewExpenseActivity.class);
 				startActivity(intent);
   			}
   		});

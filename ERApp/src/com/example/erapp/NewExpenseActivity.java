@@ -12,12 +12,9 @@ import com.parse.ParseFile;
 public class NewExpenseActivity extends Activity {
 	private Expense expense;
 	
-
-	
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		//expense = new Expense();
+		expense = new Expense();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		super.onCreate(savedInstanceState);
@@ -30,18 +27,14 @@ public class NewExpenseActivity extends Activity {
 		Fragment fragment = manager.findFragmentById(R.id.fragmentContainer);
 		
 		if(fragment == null){
-			fragment = NewExpenseFragment();
-			manager.beginTransaction().add(R.id.fragmentContainer).commit();
+			fragment = new NewExpenseFragment();
+			manager.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
 		}	
-	}
+	} // end onCreate
 	
 	public Expense getCurrentExpense(){
 		return expense;
 	}
 	
-	
 
-	
-	
-	
-}
+} // END NewExpenseActivity

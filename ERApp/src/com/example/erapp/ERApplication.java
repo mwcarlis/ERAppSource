@@ -37,46 +37,46 @@ public class ERApplication extends Application {
 	public void onCreate(){
 		super.onCreate();
 	
-	
+		ParseObject.registerSubclass(Expense.class);
 		Parse.initialize(this, "LZreCmKLdoTzWHFIBYBtGqiU2vqhioxNDPsqlmFH", "NOZLD2078ZCYverfSOgHhp4GA3AfkvyTcrCB0zbY");
 		
 		ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 		//optionally enable public read access.
-		//defaultACL.setPublicReadAccess(true);
+		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
 	}
 	
 	public static void testFunction(){
 		
 	//Date today = new Date(2014, 4, 5);
-	ArrayList<Expense> myArray = new ArrayList<Expense>();
-	Expense myExpense = new Expense("Starbucks", "today", "today", "Cash", 15.25, false, "no notes");
-	Employee Myself = new Employee("Matt", "Carlis", 310, "Manager", myArray ,10);
-	ParseObject ExpenseObj = new ParseObject(Myself.getFirstName() + Myself.getLastName());
+	//ArrayList<Expense> myArray = new ArrayList<Expense>();
+	//Expense myExpense = new Expense("Starbucks", "today", "today", "Cash", 15.25, false, "no notes");
+	//Employee Myself = new Employee("Matt", "Carlis", 310, "Manager", myArray ,10);
+	//ParseObject ExpenseObj = new ParseObject(Myself.getFirstName() + Myself.getLastName());
 	
 	
-	ExpenseObj.put(KEY_FNAME, Myself.getFirstName());
+	//ExpenseObj.put(KEY_FNAME, Myself.getFirstName());
 	
 	
-	ExpenseObj.put(KEY_LNAME, Myself.getLastName());
-	ExpenseObj.put(KEY_EMPLOYEE_ID, Myself.getID());
-	ExpenseObj.put(KEY_JOB_TITLE, Myself.getJobTitle());
-	ExpenseObj.put(KEY_RANK, Myself.getRank());
+	//ExpenseObj.put(KEY_LNAME, Myself.getLastName());
+	//ExpenseObj.put(KEY_EMPLOYEE_ID, Myself.getID());
+	//ExpenseObj.put(KEY_JOB_TITLE, Myself.getJobTitle());
+	//ExpenseObj.put(KEY_RANK, Myself.getRank());
 	
 	
 	
 	//ExpenseObj.put(KEY_EXPENSE_DATE, myExpense.getExpenseDate());
 	//ExpenseObj.put(KEY_SUBMISSION_DATE, myExpense.getSubmissionDate());
 	
-	ExpenseObj.put(KEY_VENDOR, myExpense.getVendor());
-	ExpenseObj.put(KEY_PAYMENT_TYPE, myExpense.getPaymentType());
-	ExpenseObj.put(KEY_AMOUNT, myExpense.getAmount());
-	ExpenseObj.put(KEY_APPROVED, myExpense.getApproved());
-	ExpenseObj.put(KEY_NOTES, myExpense.getNotes());
+	//ExpenseObj.put(KEY_VENDOR, myExpense.getVendor());
+	//ExpenseObj.put(KEY_PAYMENT_TYPE, myExpense.getPaymentType());
+	//ExpenseObj.put(KEY_AMOUNT, myExpense.getAmount());
+	//ExpenseObj.put(KEY_APPROVED, myExpense.getApproved());
+	//ExpenseObj.put(KEY_NOTES, myExpense.getNotes());
 	
 	
-	ExpenseObj.saveInBackground();
+	//ExpenseObj.saveInBackground();
 	}
 		
 }

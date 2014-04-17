@@ -48,8 +48,8 @@ public class MainMenuActivity extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				Toast.makeText(getApplicationContext(), "Coming soon",
-				          Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(MainMenuActivity.this, NewExpenseActivity.class);
+				startActivity(intent);
 			}
 		});
 		
