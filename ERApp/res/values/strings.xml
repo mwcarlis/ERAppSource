@@ -15,5 +15,6 @@
    <string name="addItem">Add an Expense</string>
    <string name="Account">View account settings</string>
    <string name="Register_Title">Please enter your requested Username and Password!</string>
+   <string name="add_new_expense">Add New Expense</string>
 
 </resources>
