@@ -12,8 +12,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import com.parse.GetDataCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class NewExpenseFragment extends Fragment{
 	
@@ -30,7 +33,7 @@ public class NewExpenseFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle SavedInstanceState){
 		View v = inflater.inflate(R.layout.fragment_new_expense, parent, false);
 	
-		photoButton = (Button)v.findViewById(R.id.camera_photo_button);
+		photoButton = (Button)v.findViewById(R.id.button1);
 		photoButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -58,8 +61,8 @@ public class NewExpenseFragment extends Fragment{
 	@Override
 	public void onResume(){
 		super.onResume();
-		ParseFile photoFile = ((NewExpenseActivity) getActivity()).getCurrentExpense().getPhotoFile();
-		if(photoFile != null){
+		//ParseFile photoFile = ((NewExpenseActivity) getActivity()).getCurrentExpense().getPhotoFile();
+		//if(photoFile != null){
 			//expensePreview.setParseFile(photoFile);
 			/*
 			expensePreview.loadInBackground(new GetDataCallback() {
@@ -68,7 +71,7 @@ public class NewExpenseFragment extends Fragment{
 					expensePreview.setVisibility(View.VISIBLE);
 				}
 			}); */
-		}
+		//}
 	}// END onResume()
 	
 } // END NewExpenseFragment

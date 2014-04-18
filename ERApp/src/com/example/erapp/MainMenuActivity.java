@@ -1,16 +1,13 @@
 package com.example.erapp;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import com.parse.Parse;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.parse.Parse;
 
 public class MainMenuActivity extends Activity
 {
@@ -49,7 +46,7 @@ public class MainMenuActivity extends Activity
 			public void onClick(View v) 
 			{
 				Intent intent = new Intent(MainMenuActivity.this, NewExpenseActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent,0);
 			}
 		});
 		
