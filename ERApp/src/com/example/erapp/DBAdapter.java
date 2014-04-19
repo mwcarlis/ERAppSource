@@ -1,7 +1,5 @@
 package com.example.erapp;
 
-import com.parse.Parse;
-import com.parse.ParseObject;
 
 public class DBAdapter {
 

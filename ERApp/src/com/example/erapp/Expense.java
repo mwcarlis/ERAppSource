@@ -1,7 +1,5 @@
 package com.example.erapp;
 
-import java.util.Date;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -14,17 +12,23 @@ public class Expense extends ParseObject {
 	public Expense(){
 		//Default constructor required
 	}
+	public ParseUser getAuthor(){
+		return getParseUser("author");
+	}
+	public void setAuthor(ParseUser user){
+		put("author", user);
+	}
 	
 	public String getVendor(){
 		return getString("vendor");
 	}
-	public void setVendor(String vendor){
-		put("title", vendor);
+	public void setVendor(String vendName){
+		put("vendor", vendName);
 	}
-	public String getExpenseDate(Date expenseDate) {
+	public String getExpenseDate() {
 		return getString("expense_date");
 	}
-	public void setExpenseDate(Date expenseDate){
+	public void setExpenseDate(String expenseDate){
 		put("expense_date", expenseDate);
 	}
 	public String getPaymentType(){
@@ -36,10 +40,10 @@ public class Expense extends ParseObject {
 	public void setAmount(double purchaseAmount){
 		put("amount", purchaseAmount);
 	}
-	public boolean getApproved(){
-		return getBoolean("approved");
+	public String getApproved(){
+		return getString("approved");
 	}
-	public void setApproved(boolean isApproved){
+	public void setApproved(String isApproved){
 		put("approved", isApproved);
 	}
 	public ParseFile getPhotoFile(){

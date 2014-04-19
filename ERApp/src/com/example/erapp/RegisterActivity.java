@@ -1,6 +1,5 @@
 package com.example.erapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +10,9 @@ import android.widget.Toast;
 public class RegisterActivity extends MainActivity
 {
 	private Button register;
-	private EditText username = null;
-    private EditText password = null;
+	private EditText username;
+    private EditText password;
+    private EditText passwordAgain;
     
     
 	public void onCreate(Bundle savedInstanceState)
@@ -21,11 +21,23 @@ public class RegisterActivity extends MainActivity
 		setContentView(R.layout.register);
 		Intent intent = getIntent();
 		
-		username = (EditText)findViewById(R.id.enterUsername);;
+		passwordAgain = (EditText)findViewById(R.id.password_again_et);
+		username = (EditText)findViewById(R.id.enterUsername);
         password = (EditText)findViewById(R.id.editText2);
         
+        register = (Button)findViewById(R.id.registerButton);
+        register.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				
+			}
+		}); // end register.setOnClickListener
         
-	}
+        
+        
+	}// end onCreate
 	
 	public void register(View view)
 	{

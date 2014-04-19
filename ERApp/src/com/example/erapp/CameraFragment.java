@@ -1,24 +1,29 @@
 package com.example.erapp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.SurfaceHolder.Callback;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
 
 
 @SuppressLint("ShowToast")
@@ -66,7 +71,7 @@ public class CameraFragment extends Fragment{
 
 					@Override
 					public void onPictureTaken(byte[] data, Camera camera) {
-						//saveScaledPhoto(data);
+						saveScaledPhoto(data);
 					}
 
 				}); // end takePicture
@@ -106,15 +111,43 @@ public class CameraFragment extends Fragment{
 	} //END onCreateView
 	
 	private void saveScaledPhoto(byte[] data) {
-		addPhotoToExpenseAndReturn();
+
+		// Resize photo from camera byte array
+		Bitmap expenseImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+		Bitmap expenseImageScaled = Bitmap.createScaledBitmap(expenseImage, 200, 200
+				* expenseImage.getHeight() / expenseImage.getWidth(), false);
+
+		// Override Android default landscape orientation and save portrait
+		Matrix matrix = new Matrix();
+		matrix.postRotate(90);
+		Bitmap rotatedScaledMealImage = Bitmap.createBitmap(expenseImageScaled, 0,
+				0, expenseImageScaled.getWidth(), expenseImageScaled.getHeight(),
+				matrix, true);
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		rotatedScaledMealImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+		byte[] scaledData = bos.toByteArray();
+
+		// Save the scaled image to Parse
+		photoFile = new ParseFile("receipt_photo.jpg", scaledData);
+		photoFile.saveInBackground(new SaveCallback() {
+
+			public void done(ParseException e) {
+				if (e != null) {
+					Toast.makeText(getActivity(),"Error saving: " + e.getMessage(),
+							Toast.LENGTH_LONG).show();
+				} else {
+					addPhotoToExpenseAndReturn(photoFile);
+				}
+			}
+		});
 	} // end saveScaledPhoto
 	
-	private void addPhotoToExpenseAndReturn( /*ParseFile photoFile*/) {
-		((NewExpenseActivity) getActivity()).getCurrentExpense().setPhotoFile(
-				photoFile);
+	private void addPhotoToExpenseAndReturn(ParseFile photoFile) {
+		((NewExpenseActivity) getActivity()).getCurrentExpense().setPhotoFile(photoFile);
 		FragmentManager fm = getActivity().getFragmentManager();
-		fm.popBackStack("NewMealFragment",
-				FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		fm.popBackStack("NewExpenseFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
 	} // end addPhotoToExpenseAndReturn
 	
 	@Override

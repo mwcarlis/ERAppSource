@@ -1,66 +1,58 @@
 package com.example.erapp;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 
-public class SimpleAdapter extends BaseAdapter {
-	
-	private Activity activity;
-	private ArrayList<HashMap<String, String>> data;
-	private static LayoutInflater inflater=null;
-	//public ImageLoader imageLoader;
-	
-	public SimpleAdapter(Activity a, ArrayList<HashMap<String, String>> d){
-		activity = a;
-		data = d;
-		inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		//imageLoader=new ImageLoader(activity.getApplicationContext());	
-	}
-	@Override
-	public int getCount() {
-		return data.size();
-	}
-	@Override
-	public Object getItem(int position) {
-		return position;
-	}
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View vi=convertView;
-		if(convertView==null)
-			vi = inflater.inflate(R.layout.list_item, null);
 
+public class SimpleAdapter extends ParseQueryAdapter<Expense> {
 		
-		TextView purchaseDate = (TextView)vi.findViewById(R.id.secondLine);
-		TextView seller = (TextView)vi.findViewById(R.id.firstLine);
-		TextView ammount = (TextView)vi.findViewById(R.id.ammountLine);
-		TextView approved = (TextView)vi.findViewById(R.id.approvedLine);
+	public SimpleAdapter(Context context){
+		super(context, new ParseQueryAdapter.QueryFactory<Expense>() {
+			public ParseQuery<Expense> create() {
+				ParseQuery query = new ParseQuery("Expense");
+				query.orderByAscending("createdAt");
+				return query;
+			}
+		});
+	}//end SimpleAdapter constructor
+	
+
+	@Override
+	public View getItemView(Expense expense, View v, ViewGroup parent) {
+	
+		if( v == null){
+			v = View.inflate(getContext(), R.layout.list_item, null);
+		}
+		super.getItemView(expense, v, parent);
 		
+		TextView purchaseDate = (TextView)v.findViewById(R.id.secondLine);
+		TextView seller = (TextView)v.findViewById(R.id.firstLine);
+		TextView ammount = (TextView)v.findViewById(R.id.ammountLine);
+		TextView approved = (TextView)v.findViewById(R.id.approvedLine);
 		//ImageView paymentType = (ImageView)vi.findViewById(R.id.icon);
 		
+		//HashMap<String, String> employee = new HashMap<String, String>();
+		//employee = data.get(position);
 		
-		HashMap<String, String> employee = new HashMap<String, String>();
-		employee = data.get(position);
 		
-		purchaseDate.setText(employee.get(HistoryListViewActivity.KEY_PURCHASE_DATE));
-		seller.setText(employee.get(HistoryListViewActivity.KEY_SELLER));
-		ammount.setText(employee.get(HistoryListViewActivity.KEY_SALE_AMMOUNT));
-		approved.setText(employee.get(HistoryListViewActivity.KEY_APPROVAL));
+		
+		purchaseDate.setText(expense.getExpenseDate());
+		seller.setText(expense.getVendor());
+		ammount.setText( Double.toString(expense.getAmount()));
+		//approved.setText(expense.getApproved());
+		
+		
+		//purchaseDate.setText(employee.get(HistoryListViewActivity.KEY_PURCHASE_DATE));
+		//seller.setText(employee.get(HistoryListViewActivity.KEY_SELLER));
+		//ammount.setText(employee.get(HistoryListViewActivity.KEY_SALE_AMMOUNT));
+		//approved.setText(employee.get(HistoryListViewActivity.KEY_APPROVAL));
 				
-		return vi;
+		return v;
 	}
 	
 }

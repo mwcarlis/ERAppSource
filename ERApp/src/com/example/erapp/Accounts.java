@@ -1,8 +1,5 @@
 package com.example.erapp;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.LinkedList;
 
 public class Accounts implements Comparable

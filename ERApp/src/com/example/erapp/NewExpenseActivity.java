@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.parse.ParseFile;
 
 public class NewExpenseActivity extends Activity {
 	private Expense expense;
@@ -35,6 +34,7 @@ public class NewExpenseActivity extends Activity {
 	public Expense getCurrentExpense(){
 		return expense;
 	}
+
 	
 
 } // END NewExpenseActivity

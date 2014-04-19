@@ -1,12 +1,13 @@
 package com.example.erapp;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
+
+import com.parse.ParseQueryAdapter;
 
 public class HistoryListViewActivity extends Activity {
 
@@ -19,38 +20,55 @@ public class HistoryListViewActivity extends Activity {
 	static final String USD="$";
 	
 	ListView list;
+	//private ParseQueryAdapter<Expense> mainAdapter;
 	SimpleAdapter adapter;
-	public String[] sellerList = {"Home Depot","7 Eleven","Costco","Outback Steak House","Philz Coffee", "Taco Bell", "Walgreens", "K Mart", "Frys", "Lees Sandwiches", "Super Taco"};
-	public String[] purchaseDateList={"1/12/13", "1/23/13","2/16/13", "2/17/13", "2/18/13","2/19/13","2/20/13","2/21/13","2/22/13","2/23/13","2/24/13"};
-	public String[] saleAmmountList={"1023.10","243.98","107.54","45.88","21.99","2.99","43.13","31.22","15.66","45.99","6.00"};
-	public String[] approvedPendingList={"Approved","Pending","Approved","Approved","Rejected","Approved","Pending","Pending","Pending","Approved","Approved"};
 	
+
 	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history_list);
 		
-		ERApplication.testFunction();
-
-		
-		ArrayList<HashMap<String,String>> expenseList=new ArrayList<HashMap<String, String>>();
 		Intent intent = getIntent();
+		list=(ListView)findViewById(R.id.list);
+
+		adapter = new SimpleAdapter(this);
 		
-		for(int i=0; i<11; i++)
-		{
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put(KEY_SELLER, sellerList[i]);
-			map.put(KEY_PURCHASE_DATE, PURCHASE_DATE+purchaseDateList[i]);
-			map.put(KEY_SALE_AMMOUNT, USD+saleAmmountList[i]);
-			map.put(KEY_APPROVAL, approvedPendingList[i]);
-			
-			expenseList.add(map);
-		}
 		
-		ListView list=(ListView)findViewById(R.id.list);
-		
-		adapter=new SimpleAdapter(this, expenseList);
 		list.setAdapter(adapter);
 	}//END onCreate
-}//END HistoryListView
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu){
+		getMenuInflater().inflate(R.menu.activity_history_list, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		if(item.getItemId() == R.id.menu_title){
+
+		}else if(item.getItemId() == R.id.action_new){
+			newExpense();
+		}
+		return super.onOptionsItemSelected(item);
+	}// end onOptionsItemSelected
+	
+	private void  updateExpenseList(){
+		adapter.loadObjects();
+		list.setAdapter(adapter);
+	}
+	
+	private void newExpense(){
+		Intent i = new Intent(HistoryListViewActivity.this, NewExpenseActivity.class);
+		startActivityForResult(i, 0);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data){
+		if(resultCode == Activity.RESULT_OK){
+			updateExpenseList();
+		}
+	}
+	
+}//END HistoryListViewActivity

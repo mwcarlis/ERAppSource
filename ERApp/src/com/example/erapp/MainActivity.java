@@ -14,9 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.Parse;
-import com.parse.ParseObject;
-
 public class MainActivity extends Activity {
 
        private EditText  username=null;
@@ -55,7 +52,7 @@ public class MainActivity extends Activity {
   			@Override
   			public void onClick(View v) 
   			{
-  				Intent intent = new Intent(MainActivity.this, NewExpenseActivity.class);
+  				Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
 				startActivity(intent);
   			}
   		});
@@ -64,10 +61,10 @@ public class MainActivity extends Activity {
        public void login(View view)
        {
           if((findAccount(username.getText().toString()) && 
-          password.getText().toString().equals(accountHolder.get(index).getPassword())) ||( password.getText().toString().equals("admin") && username.getText().toString().equals("admin")) )
+          password.getText().toString().equals(accountHolder.get(index).getPassword())) ||( password.getText().toString().equals("") && username.getText().toString().equals("")) )
           {  
 	          success = true;
-	          Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
+	          Intent intent = new Intent(MainActivity.this, HistoryListViewActivity.class);
 			  startActivity(intent);
 			  Toast.makeText(getApplicationContext(), "Login Successful!", 
 	          Toast.LENGTH_SHORT).show();
