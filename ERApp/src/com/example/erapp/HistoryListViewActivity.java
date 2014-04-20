@@ -8,16 +8,9 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
 public class HistoryListViewActivity extends Activity {
-
-	static final String KEY_SELLER="seller";
-	static final String KEY_PURCHASE_DATE="purchase_date";
-	static final String KEY_SALE_AMMOUNT="sale_ammount";
-	static final String KEY_APPROVAL="approval";
-	
-	static final String PURCHASE_DATE="Purchase Date: ";
-	static final String USD="$";
 	
 	ListView list;
 	//private ParseQueryAdapter<Expense> mainAdapter;
@@ -31,8 +24,8 @@ public class HistoryListViewActivity extends Activity {
 		
 		Intent intent = getIntent();
 		list=(ListView)findViewById(R.id.list);
-
-		adapter = new SimpleAdapter(this);
+		ParseUser user = ParseUser.getCurrentUser();
+		adapter = new SimpleAdapter(this, user);
 		
 		
 		list.setAdapter(adapter);
@@ -50,6 +43,10 @@ public class HistoryListViewActivity extends Activity {
 
 		}else if(item.getItemId() == R.id.action_new){
 			newExpense();
+		} else if(item.getItemId() == R.id.log_out){
+			Intent intentDispatch = new Intent(HistoryListViewActivity.this, DispatchActivity.class);
+			ParseUser.logOut();
+			startActivityForResult(intentDispatch, 0);
 		}
 		return super.onOptionsItemSelected(item);
 	}// end onOptionsItemSelected

@@ -7,15 +7,17 @@ import android.widget.TextView;
 
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
 
 public class SimpleAdapter extends ParseQueryAdapter<Expense> {
 		
-	public SimpleAdapter(Context context){
+	public SimpleAdapter(Context context, final ParseUser user){
 		super(context, new ParseQueryAdapter.QueryFactory<Expense>() {
 			public ParseQuery<Expense> create() {
 				ParseQuery query = new ParseQuery("Expense");
 				query.orderByAscending("createdAt");
+				query.whereEqualTo("user", user);
 				return query;
 			}
 		});
@@ -36,22 +38,14 @@ public class SimpleAdapter extends ParseQueryAdapter<Expense> {
 		TextView approved = (TextView)v.findViewById(R.id.approvedLine);
 		//ImageView paymentType = (ImageView)vi.findViewById(R.id.icon);
 		
-		//HashMap<String, String> employee = new HashMap<String, String>();
-		//employee = data.get(position);
-		
-		
 		
 		purchaseDate.setText(expense.getExpenseDate());
 		seller.setText(expense.getVendor());
 		ammount.setText( Double.toString(expense.getAmount()));
-		//approved.setText(expense.getApproved());
+		approved.setText(expense.getApproved());
+
 		
-		
-		//purchaseDate.setText(employee.get(HistoryListViewActivity.KEY_PURCHASE_DATE));
-		//seller.setText(employee.get(HistoryListViewActivity.KEY_SELLER));
-		//ammount.setText(employee.get(HistoryListViewActivity.KEY_SALE_AMMOUNT));
-		//approved.setText(employee.get(HistoryListViewActivity.KEY_APPROVAL));
-				
+
 		return v;
 	}
 	

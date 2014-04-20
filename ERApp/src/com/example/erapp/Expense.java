@@ -13,10 +13,10 @@ public class Expense extends ParseObject {
 		//Default constructor required
 	}
 	public ParseUser getAuthor(){
-		return getParseUser("author");
+		return getParseUser("user");
 	}
 	public void setAuthor(ParseUser user){
-		put("author", user);
+		put("user", user);
 	}
 	
 	public String getVendor(){
@@ -73,66 +73,5 @@ public class Expense {
 	private boolean approved;
 	private Picture receipt;
 	private String notes;
-
-
-public Expense(String vendInit, String expenDateInit, String subDateInit, String payTypeInit, double amountInit, boolean approvedInit, String notesInit){
-	vendor=vendInit; expenseDate=expenDateInit;
-	submissionDate=subDateInit; paymentType=payTypeInit;
-	amount=amountInit; approved=approvedInit;
-	notes=notesInit;
-}
-
-//---- getVALUE() Functions ----//
-String getVendor(){
-	return vendor;
-}
-String getExpenseDate(){
-	return expenseDate;
-}
-String getSubmissionDate(){
-	return submissionDate;
-}
-String getPaymentType(){
-	return paymentType;
-}
-double getAmount(){
-	return amount;
-}
-boolean getApproved(){
-	return approved;
-}
-Picture getReceipt(){
-	return receipt;
-}
-String getNotes(){
-	return notes;
-}// END getVALUE() Function //
-
-
-//---- setVALUE() Functions ----//
-void setVendor(String vend){
-	vendor=vend;
-}
-void setExpenseDate(String expenDate){
-	expenseDate=expenDate;
-}
-void setPaymentType(String payType){
-	paymentType=payType;
-}
-void setAmount(double spent){
-	amount=spent;
-}
-void setApproved(boolean aprvd){
-	approved=aprvd;
-}
-void setPicture(Picture receiptPic){
-	receipt=receiptPic;
-}
-void setNotes(String noteStr){
-	notes=noteStr;
-}// END setVALUE() Functions //
-
-//------------------//
-}//END ExpenseCLASS //
 
 */

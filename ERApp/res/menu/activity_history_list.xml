@@ -13,6 +13,11 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_new"
         />
+   <item 
+        android:id="@+id/log_out"
+        android:showAsAction="ifRoom"
+        android:title="@string/log_out"
+        />
     
 
 </menu>

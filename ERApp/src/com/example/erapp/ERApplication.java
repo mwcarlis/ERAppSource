@@ -14,19 +14,21 @@ import com.parse.ParseUser;
 public class ERApplication extends Application {
 	
 	private static SharedPreferences preferences;
-
+	private static String Application_ID="aYOHfCM2NACDPzlyze29zkwDPEyZiymsSbSFpFLg";
+	private static String Client_Key="Ljp9v7vaLOM7viK9f9o7Kw2EA6IsoJOwBlww9MbA";
+	
 	
 	@Override
 	public void onCreate(){
 		super.onCreate();
-	
-		ParseObject.registerSubclass(Expense.class);
-		Parse.initialize(this, "LZreCmKLdoTzWHFIBYBtGqiU2vqhioxNDPsqlmFH", "NOZLD2078ZCYverfSOgHhp4GA3AfkvyTcrCB0zbY");
 		
-		ParseUser.enableAutomaticUser();
+		ParseObject.registerSubclass(Expense.class);
+		Parse.initialize(this, Application_ID, Client_Key);
+		
+		//ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 		//optionally enable public read access.
-		defaultACL.setPublicReadAccess(false);
+		//defaultACL.setPublicReadAccess(false);
 		ParseACL.setDefaultACL(defaultACL, true);
 	}
 	

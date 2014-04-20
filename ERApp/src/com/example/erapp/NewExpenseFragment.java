@@ -49,6 +49,7 @@ public class NewExpenseFragment extends Fragment{
 		purchaseDateET = (EditText)v.findViewById(R.id.purchase_date_et);
 		amountET = (EditText)v.findViewById(R.id.amount_et);
 		notesET = (EditText)v.findViewById(R.id.notes_et);
+		final ParseUser user = ParseUser.getCurrentUser();
 	
 		photoButton = (Button)v.findViewById(R.id.take_picture_button);
 		photoButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +82,8 @@ public class NewExpenseFragment extends Fragment{
 				expense.setExpenseDate(purchaseDateET.getText().toString());
 				expense.setNotes(notesET.getText().toString());
 				expense.setAmount(Double.parseDouble(amountET.getText().toString()));
+				expense.setAuthor(user);
+				expense.setApproved("Pending");
 				
 				expense.saveInBackground(new SaveCallback() {
 
