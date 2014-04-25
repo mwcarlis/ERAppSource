@@ -6,15 +6,20 @@ import android.os.Bundle;
 
 import com.parse.ParseUser;
 
-public class DispatchActivity extends Activity {
+public class DispatchActivity extends Activity 
+{
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		
-		if(ParseUser.getCurrentUser() != null){
+		if(ParseUser.getCurrentUser() != null)
+		{
 			startActivity(new Intent(this, HistoryListViewActivity.class));
-		} else {
+		}
+		else 
+		{
 			startActivity(new Intent(this, MainActivity.class));
 		}
 

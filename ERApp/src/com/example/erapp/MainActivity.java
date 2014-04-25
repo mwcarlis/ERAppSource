@@ -7,12 +7,12 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -62,18 +62,23 @@ public class MainActivity extends Activity {
           
           
           // Set up the submit button click handler
-          login.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
+          login.setOnClickListener(new View.OnClickListener() 
+          {
+            public void onClick(View view) 
+            {
               // Validate the log in data
               boolean validationError = false;
               StringBuilder validationErrorMessage =
                   new StringBuilder(getResources().getString(R.string.error_intro));
-              if (isEmpty(username)) {
+              if (isEmpty(username)) 
+              {
                 validationError = true;
                 validationErrorMessage.append(getResources().getString(R.string.error_blank_username));
               }
-              if (isEmpty(password)) {
-                if (validationError) {
+              if (isEmpty(password)) 
+              {
+                if (validationError) 
+                {
                   validationErrorMessage.append(getResources().getString(R.string.error_join));
                 }
                 validationError = true;
@@ -82,7 +87,8 @@ public class MainActivity extends Activity {
               validationErrorMessage.append(getResources().getString(R.string.error_end));
 
               // If there is a validation error, display the error
-              if (validationError) {
+              if (validationError) 
+              {
                 Toast.makeText(MainActivity.this, validationErrorMessage.toString(), Toast.LENGTH_LONG)
                     .show();
                 return;
@@ -100,10 +106,13 @@ public class MainActivity extends Activity {
                 @Override
                 public void done(ParseUser user, ParseException e) {
                   dlg.dismiss();
-                  if (e != null) {
+                  if (e != null) 
+                  {
                     // Show the error message
                     Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                  } else {
+                  } 
+                  else 
+                  {
                     // Start an intent for the dispatch activity
                     Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -124,13 +133,16 @@ public class MainActivity extends Activity {
           return true;
        }//end onCreateOptionsMenu
        
-       private boolean isEmpty(EditText etText) {
+       private boolean isEmpty(EditText etText) 
+       {
     	    if (etText.getText().toString().trim().length() > 0) {
     	      return false;
     	    } else {
     	      return true;
     	    }
-    	  }//end isEmpty
+    }//end isEmpty
+       
+
 
       
 
