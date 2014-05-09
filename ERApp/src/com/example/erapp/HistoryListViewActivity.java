@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -23,15 +24,23 @@ public class HistoryListViewActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.history_list);
-		
-		Intent intent = getIntent();
-		list=(ListView)findViewById(R.id.list);
-		ParseUser user = ParseUser.getCurrentUser();
-		adapter = new SimpleAdapter(this, user);
-		
-		
-		list.setAdapter(adapter);
+		if(ParseUser.getCurrentUser() != null)
+		{
+			getActionBar().setDisplayHomeAsUpEnabled(false);
+			setContentView(R.layout.history_list);
+			
+			Intent intent = getIntent();
+			list=(ListView)findViewById(R.id.list);
+			ParseUser user = ParseUser.getCurrentUser();
+			adapter = new SimpleAdapter(this, user);
+			
+			
+			list.setAdapter(adapter);
+		}
+		else 
+		{
+			startActivity(new Intent(this, MainActivity.class));
+		}
 	}//END onCreate
 	
 	@Override
@@ -66,9 +75,10 @@ public class HistoryListViewActivity extends Activity {
 	        @Override
 	        public void onClick(DialogInterface dialog, int which) 
 	        { 
-	        	Intent intentDispatch = new Intent(HistoryListViewActivity.this, DispatchActivity.class);
+	        	Intent intentMain = new Intent(HistoryListViewActivity.this, MainActivity.class);
 				ParseUser.logOut();
-				startActivityForResult(intentDispatch, 0);
+				startActivityForResult(intentMain, 0);
+				finish();
 	        }
 
 	    })
@@ -119,9 +129,10 @@ public class HistoryListViewActivity extends Activity {
 	        @Override
 	        public void onClick(DialogInterface dialog, int which) 
 	        { 
-	        	Intent intentDispatch = new Intent(HistoryListViewActivity.this, DispatchActivity.class);
+	        	Intent intentMain = new Intent(HistoryListViewActivity.this, MainActivity.class);
 				ParseUser.logOut();
-				startActivityForResult(intentDispatch, 0);
+				startActivityForResult(intentMain, 0);
+				finish();
 	        }
 
 	    })

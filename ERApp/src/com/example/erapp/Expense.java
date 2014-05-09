@@ -7,55 +7,84 @@ import com.parse.ParseUser;
 
 
 @ParseClassName("Expense")
-public class Expense extends ParseObject {
+public class Expense extends ParseObject 
+{
 	
-	public Expense(){
+	public Expense()
+	{
 		//Default constructor required
 	}
-	public ParseUser getAuthor(){
+	public ParseUser getAuthor()
+	{
 		return getParseUser("user");
 	}
-	public void setAuthor(ParseUser user){
+	public void setAuthor(ParseUser user)
+	{
 		put("user", user);
 	}
 	
-	public String getVendor(){
+	public String getVendor()
+	{
 		return getString("vendor");
 	}
-	public void setVendor(String vendName){
+	
+	public void setVendor(String vendName)
+	{
 		put("vendor", vendName);
 	}
-	public String getExpenseDate() {
+	
+	public String getExpenseDate() 
+	{
 		return getString("expense_date");
 	}
-	public void setExpenseDate(String expenseDate){
+	
+	public void setExpenseDate(String expenseDate)
+	{
 		put("expense_date", expenseDate);
 	}
-	public String getPaymentType(){
+	
+	public String getPaymentType()
+	{
 		return getString("payment_type");
 	}
-	public double getAmount(){
+	
+	public double getAmount()
+	{
 		return getDouble("amount");
 	}
-	public void setAmount(double purchaseAmount){
+	
+	public void setAmount(double purchaseAmount)
+	{
 		put("amount", purchaseAmount);
 	}
-	public String getApproved(){
+	
+	public String getApproved()
+	{
 		return getString("approved");
 	}
-	public void setApproved(String isApproved){
+	
+	public void setApproved(String isApproved)
+	{
 		put("approved", isApproved);
 	}
-	public ParseFile getPhotoFile(){
+	
+	public ParseFile getPhotoFile()
+	{
 		return getParseFile("receipt_picture");
 	}
-	public void setPhotoFile(ParseFile file){
+	
+	public void setPhotoFile(ParseFile file)
+	{
 		put("receipt_picture", file);
 	}
-	public String getNotes(){
+	
+	public String getNotes()
+	{
 		return getString("notes");
 	}
-	public void setNotes(String notesString){
+	
+	public void setNotes(String notesString)
+	{
 		put("notes", notesString);
 	}
 	

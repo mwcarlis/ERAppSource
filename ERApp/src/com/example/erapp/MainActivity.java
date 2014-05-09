@@ -24,12 +24,10 @@ public class MainActivity extends Activity {
 
        private EditText  username;
        private EditText  password;
-       private TextView attempts;
+
        private Button login;
        private Button register;
-       int counter = 3;
-       int index = 0;
-       private boolean success = false;
+
        
 
        @Override
@@ -37,13 +35,11 @@ public class MainActivity extends Activity {
        {
 
           super.onCreate(savedInstanceState);
+          
           setContentView(R.layout.activity_main);
-          
-          
+ 
           username = (EditText)findViewById(R.id.editText1);
           password = (EditText)findViewById(R.id.editText2);
-          attempts = (TextView)findViewById(R.id.textView5);
-          attempts.setText(Integer.toString(counter));
           login = (Button)findViewById(R.id.button1);
 
           
@@ -114,7 +110,7 @@ public class MainActivity extends Activity {
                   else 
                   {
                     // Start an intent for the dispatch activity
-                    Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
+                    Intent intent = new Intent(MainActivity.this, HistoryListViewActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                   }
@@ -135,7 +131,8 @@ public class MainActivity extends Activity {
        
        private boolean isEmpty(EditText etText) 
        {
-    	    if (etText.getText().toString().trim().length() > 0) {
+    	    if (etText.getText().toString().trim().length() > 0) 
+    	    {
     	      return false;
     	    } else {
     	      return true;
