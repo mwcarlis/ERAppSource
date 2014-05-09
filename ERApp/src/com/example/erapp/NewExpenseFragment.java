@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.GetDataCallback;
@@ -32,6 +34,7 @@ public class NewExpenseFragment extends Fragment{
 	private Button photoButton;
 	private Button saveButton;
 	private Button cancelButton;
+    private Spinner payment_type;
 	private ParseImageView expensePreview;
 	
 
@@ -39,17 +42,30 @@ public class NewExpenseFragment extends Fragment{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		//setHasOptionsMenu(true);
+		
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle SavedInstanceState){
-		View v = inflater.inflate(R.layout.fragment_new_expense, parent, false);
+		View v = inflater.inflate(R.layout.fragment_new_expense1, parent, false);
 		
 		vendorET = (EditText)v.findViewById(R.id.vendor_et);
 		purchaseDateET = (EditText)v.findViewById(R.id.purchase_date_et);
 		amountET = (EditText)v.findViewById(R.id.amount_et);
 		notesET = (EditText)v.findViewById(R.id.notes_et);
 		final ParseUser user = ParseUser.getCurrentUser();
+		payment_type = (Spinner)v.findViewById(R.id.payment_type_spinner);
+		
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(),
+		        R.array.payment_type_array, android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		payment_type.setAdapter(adapter);
+		
+
+
+		
 	
 		photoButton = (Button)v.findViewById(R.id.take_picture_button);
 		photoButton.setOnClickListener(new View.OnClickListener() {
