@@ -4,6 +4,7 @@
         <item>Cash</item>
         <item>Credit</item>
         <item>Debit</item>
+        <item>Check</item>
         <item>Gold</item>
         <item>Other</item>
     </string-array>
