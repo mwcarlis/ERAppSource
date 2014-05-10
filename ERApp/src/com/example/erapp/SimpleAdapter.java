@@ -25,7 +25,7 @@ import com.parse.ParseUser;
 
 public class SimpleAdapter extends BaseAdapter
 {
-	private ArrayList<Expense> arraylist;	
+	private ArrayList<localExpense> arraylist;	
 	//private List<Expense> expenseList;
 	List<ParseObject> ob;
 	Context context;
@@ -58,7 +58,7 @@ public class SimpleAdapter extends BaseAdapter
 		inflater = LayoutInflater.from(context);
 		this.context = context;
 		
-	    this.arraylist = new ArrayList<Expense>();
+	    this.arraylist = new ArrayList<localExpense>();
 	    
 	    try 
 	    {
@@ -71,13 +71,13 @@ public class SimpleAdapter extends BaseAdapter
 			{
 				
 				ParseFile image = (ParseFile) ((Expense) currentExpense).getPhotoFile();
-				Expense current = new Expense();
-				current.setAuthor(user);
-				current.setExpenseDate(((Expense) currentExpense).getExpenseDate());
+				localExpense current = new localExpense();
+				current.setUserId(user);
+				current.setDate(((Expense) currentExpense).getExpenseDate());
 				current.setVendor(((Expense) currentExpense).getVendor());
 				current.setAmount(((Expense) currentExpense).getAmount());
 				current.setNotes(((Expense) currentExpense).getNotes());
-				current.setApproved(((Expense) currentExpense).getApproved());
+				current.setStatus(((Expense) currentExpense).getApproved());
 				current.setObjectId(currentExpense.getObjectId());
 				if(image != null)
 				{
@@ -110,7 +110,7 @@ public class SimpleAdapter extends BaseAdapter
 	  }
 	
 	 @Override
-	 public Expense getItem(int position) 
+	 public localExpense getItem(int position) 
 	 {
 		  return arraylist.get(position);
       }
@@ -146,10 +146,10 @@ public class SimpleAdapter extends BaseAdapter
 		TextView approved = (TextView)v.findViewById(R.id.approvedLine);*/
 		//ImageView paymentType = (ImageView)vi.findViewById(R.id.icon);
 		
-		holder.purchaseDate.setText(arraylist.get(position).getExpenseDate());
+		holder.purchaseDate.setText(arraylist.get(position).getDate());
 		holder.vendor.setText(arraylist.get(position).getVendor());
 		holder.ammount.setText( Double.toString(arraylist.get(position).getAmount()));
-		holder.approved.setText(arraylist.get(position).getApproved());
+		holder.approved.setText(arraylist.get(position).getStatus());
 		
 		
 		v.setOnClickListener(new OnClickListener() 
@@ -163,13 +163,13 @@ public class SimpleAdapter extends BaseAdapter
 		            (arraylist.get(position).getVendor()));
 		        // Pass all data purchaseDate
 		        intent.putExtra("purchaseDate",
-		            (arraylist.get(position).getExpenseDate()));
+		            (arraylist.get(position).getDate()));
 		        // Pass all data amount
 		        intent.putExtra("amount",
 		            (Double.toString(arraylist.get(position).getAmount())));
 		        // Pass all data pending
 		        intent.putExtra("pending",
-		            (arraylist.get(position).getApproved()));
+		            (arraylist.get(position).getStatus()));
 		       // Pass all data note
 		        
 		        intent.putExtra("note",
