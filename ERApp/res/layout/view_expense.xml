@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+
+    <TextView
+        android:id="@+id/vendorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@+id/vendorViewLabel"/>
+
+    <TextView
+        android:id="@+id/vendorViewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vendor" />
+
+    <TextView
+        android:id="@+id/dateViewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/purchaseDate"
+        android:layout_below="@+id/vendorViewLabel" />
+    
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dateViewLabel" 
+        android:layout_below="@+id/vendorView" />
+    
+
+    <TextView
+        android:id="@+id/amountViewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/amount"
+        android:layout_below="@+id/dateViewLabel" />
+    
+    <TextView
+        android:id="@+id/amountView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/noteViewLabel"
+        android:layout_below="@+id/dateView"
+        android:layout_toRightOf="@+id/amountViewLabel" />
+
+    <TextView
+        android:id="@+id/noteViewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/notes"
+        android:layout_below="@+id/amountViewLabel" />
+    
+    <TextView
+        android:id="@+id/statusViewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/status"
+        android:layout_below="@+id/noteViewLabel" />
+
+    <TextView
+        android:id="@+id/statusView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/noteViewLabel"
+        android:layout_toRightOf="@+id/dateView" />
+
+    <TextView
+        android:id="@+id/noteView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/noteViewLabel"
+        android:layout_alignBottom="@+id/noteViewLabel"
+        android:layout_toRightOf="@+id/statusViewLabel" />
+
+</RelativeLayout>

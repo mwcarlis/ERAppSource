@@ -39,25 +39,6 @@ public class ERApplication extends Application {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
 static final String KEY_EXPENSE="expense";
 static final String KEY_VENDOR="vendor";

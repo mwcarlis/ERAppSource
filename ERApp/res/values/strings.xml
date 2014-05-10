@@ -20,6 +20,14 @@
     <string name="Register_Title">Please enter your requested Username and Password!</string>
     <string name="add_new_expense">Add New Expense</string>
     <string name="title_activity_dispatch">DispatchActivity</string>
+    <string name="expense_title">%1$s : </string>
+    <string name="vendor">Vendor:</string>
+    <string name="amount">Amount:</string>
+    <string name="purchaseDate">Date:</string>
+    <string name="notes">Notes:</string>
+    <string name="title_view_expense_activity">Expense</string>
+    <string name="status">Status:</string>
+    
     
     
     
