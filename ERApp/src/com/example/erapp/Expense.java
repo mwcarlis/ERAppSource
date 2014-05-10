@@ -88,6 +88,11 @@ public class Expense extends ParseObject
 		put("notes", notesString);
 	}
 	
+	public void setPhotoFile(Object file)
+	{
+		put("receipt_picture", file);
+	}
+	
 }// END Expense Class
 
 

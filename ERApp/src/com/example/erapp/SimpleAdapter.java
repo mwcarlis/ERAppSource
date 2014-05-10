@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -26,7 +26,7 @@ import com.parse.ParseUser;
 public class SimpleAdapter extends BaseAdapter
 {
 	private ArrayList<Expense> arraylist;	
-	private List<Expense> expenseList;
+	//private List<Expense> expenseList;
 	List<ParseObject> ob;
 	Context context;
 	LayoutInflater inflater;
@@ -40,7 +40,7 @@ public class SimpleAdapter extends BaseAdapter
 	    TextView ammount;
 	    TextView purchaseDate;
 	    TextView note;
-	    ImageView receipt;
+	    ParseImageView receipt;
 	}
 	
 	public SimpleAdapter(Context context, final ParseUser user)
@@ -59,7 +59,6 @@ public class SimpleAdapter extends BaseAdapter
 		this.context = context;
 		
 	    this.arraylist = new ArrayList<Expense>();
-	   // this.expenseList = new List<Expense>();
 	    
 	    try 
 	    {
@@ -79,6 +78,11 @@ public class SimpleAdapter extends BaseAdapter
 				current.setAmount(((Expense) currentExpense).getAmount());
 				current.setNotes(((Expense) currentExpense).getNotes());
 				current.setApproved(((Expense) currentExpense).getApproved());
+				current.setObjectId(currentExpense.getObjectId());
+				if(image != null)
+				{
+					current.setPhotoFile(image);
+				}
 				
 				arraylist.add(current);
 				
@@ -125,6 +129,7 @@ public class SimpleAdapter extends BaseAdapter
 			holder.vendor = (TextView)v.findViewById(R.id.firstLine);
 			holder.ammount = (TextView)v.findViewById(R.id.ammountLine);
 			holder.approved = (TextView)v.findViewById(R.id.approvedLine);
+			
 			v.setTag(holder);
 		}
 		else 
@@ -151,22 +156,40 @@ public class SimpleAdapter extends BaseAdapter
 		{
 			 public void onClick(View arg0) 
 		      {
-		        // Send single item click data to SingleItemView Class
+		        // Send single item click data to ViewExpenseActivity Class
 		        Intent intent = new Intent(context, ViewExpenseActivity.class);
-		        // Pass all data rank
+		        // Pass all data Vendor
 		        intent.putExtra("Vendor",
 		            (arraylist.get(position).getVendor()));
-		        // Pass all data country
+		        // Pass all data purchaseDate
 		        intent.putExtra("purchaseDate",
 		            (arraylist.get(position).getExpenseDate()));
-		        // Pass all data population
-		        intent.putExtra("ammount",
+		        // Pass all data amount
+		        intent.putExtra("amount",
 		            (Double.toString(arraylist.get(position).getAmount())));
-		        // Pass all data flag
+		        // Pass all data pending
 		        intent.putExtra("pending",
 		            (arraylist.get(position).getApproved()));
+		       // Pass all data note
+		        
 		        intent.putExtra("note",
 			            (arraylist.get(position).getNotes()));
+		        
+		        intent.putExtra("objectId",
+			            (arraylist.get(position).getObjectId()));
+		        try
+		        {
+		        	if(arraylist.get(position).getPhotoFile() != null)
+		        	{
+		        		System.out.println("it wasn't null!");
+		        		intent.putExtra("image",
+					        (arraylist.get(position).getPhotoFile()).getData());
+		        	}
+				} catch (ParseException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		        // Start SingleItemView Class
 		        context.startActivity(intent);
 		      }

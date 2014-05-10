@@ -76,5 +76,21 @@
         android:layout_alignBaseline="@+id/noteViewLabel"
         android:layout_alignBottom="@+id/noteViewLabel"
         android:layout_toRightOf="@+id/statusViewLabel" />
+    
+     <ImageView
+         android:id="@+id/recieptImage"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:background="#000000"
+         android:padding="1dp" />
+
+     <Button
+         android:id="@+id/editButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:text="@string/edit" />
 
 </RelativeLayout>
