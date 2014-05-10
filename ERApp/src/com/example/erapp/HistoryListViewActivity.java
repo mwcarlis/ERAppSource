@@ -1,5 +1,7 @@
 package com.example.erapp;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,7 +10,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -18,6 +23,8 @@ public class HistoryListViewActivity extends Activity {
 	ListView list;
 	//private ParseQueryAdapter<Expense> mainAdapter;
 	SimpleAdapter adapter;
+	
+
 	
 
 	@Override
@@ -30,12 +37,12 @@ public class HistoryListViewActivity extends Activity {
 			setContentView(R.layout.history_list);
 			
 			Intent intent = getIntent();
-			list=(ListView)findViewById(R.id.list);
+			list = (ListView)findViewById(R.id.list);
 			ParseUser user = ParseUser.getCurrentUser();
 			adapter = new SimpleAdapter(this, user);
 			
-			
 			list.setAdapter(adapter);
+			
 		}
 		else 
 		{
@@ -90,8 +97,10 @@ public class HistoryListViewActivity extends Activity {
 	
 	private void  updateExpenseList()
 	{
-		adapter.loadObjects();
+		
 		list.setAdapter(adapter);
+		adapter.notifyDataSetChanged();
+		this.recreate();
 	}
 	
 	private void newExpense()
@@ -139,5 +148,6 @@ public class HistoryListViewActivity extends Activity {
 	    .setNegativeButton("No", null)
 	    .show();
 	}
+	
 	
 }//END HistoryListViewActivity
