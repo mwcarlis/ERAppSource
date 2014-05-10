@@ -4,15 +4,16 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class NewExpenseActivity extends Activity {
+public class NewExpenseActivity extends Activity implements DatePickerFragment.OnDateSelectedListener{
+	
 	private Expense expense;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		String dateString;
 		expense = new Expense();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -35,6 +36,17 @@ public class NewExpenseActivity extends Activity {
 		return expense;
 	}
 
-	
+	public void onDateSelected(String dateStr){
+		//The user selected the headline of an article from the HeadlinesFragment
+		// Do something here to display that Article
+		
+		NewExpenseFragment newExpenseFrag = (NewExpenseFragment) getFragmentManager().findFragmentById(R.id.fragmentContainer);
+		
+		if(newExpenseFrag != null){
+			newExpenseFrag.updateDateTextView(dateStr);
+			
+		}
+		
+	}
 
 } // END NewExpenseActivity

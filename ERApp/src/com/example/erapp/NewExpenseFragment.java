@@ -1,10 +1,15 @@
 package com.example.erapp;
 
 
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.nfc.FormatException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +17,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.GetDataCallback;
@@ -23,7 +30,8 @@ import com.parse.ParseImageView;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-public class NewExpenseFragment extends Fragment{
+public class NewExpenseFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+	
 	
 	//private ParseImageView expensePreview;	
 	private EditText vendorET;
@@ -31,19 +39,27 @@ public class NewExpenseFragment extends Fragment{
 	private EditText amountET;
 	private EditText notesET;
 	
+	private EditText buttonTView;
+	
 	private Button photoButton;
 	private Button saveButton;
 	private Button cancelButton;
     private Spinner payment_type;
 	private ParseImageView expensePreview;
 	
-
+	Calendar myCalendar = Calendar.getInstance();
+	int startYear = myCalendar.get(Calendar.YEAR);
+	int startMonth = myCalendar.get(Calendar.MONTH);
+	int startDay = myCalendar.get(Calendar.DAY_OF_MONTH);
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		//setHasOptionsMenu(true);
 		
 	}
+
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle SavedInstanceState){
@@ -55,6 +71,7 @@ public class NewExpenseFragment extends Fragment{
 		notesET = (EditText)v.findViewById(R.id.notes_et);
 		final ParseUser user = ParseUser.getCurrentUser();
 		payment_type = (Spinner)v.findViewById(R.id.payment_type_spinner);
+		buttonTView = (EditText)v.findViewById(R.id.buttonTextView);
 		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(),
 		        R.array.payment_type_array, android.R.layout.simple_spinner_item);
@@ -63,9 +80,18 @@ public class NewExpenseFragment extends Fragment{
 		// Apply the adapter to the spinner
 		payment_type.setAdapter(adapter);
 		
-
-
 		
+		buttonTView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				DialogFragment picker = new DatePickerFragment();
+				picker.show(getFragmentManager(), "datePicker");
+				
+			}
+		}); 
+	
+
 	
 		photoButton = (Button)v.findViewById(R.id.take_picture_button);
 		photoButton.setOnClickListener(new View.OnClickListener() {
@@ -91,17 +117,31 @@ public class NewExpenseFragment extends Fragment{
 		saveButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				boolean valid = true;
+				double value=0;
 				Expense expense = ((NewExpenseActivity) getActivity()).getCurrentExpense();
-				expense.setAuthor(ParseUser.getCurrentUser());
+
 				
-				expense.setVendor(vendorET.getText().toString());
-				expense.setExpenseDate(purchaseDateET.getText().toString());
-				expense.setNotes(notesET.getText().toString());
-				expense.setAmount(Double.parseDouble(amountET.getText().toString()));
-				expense.setAuthor(user);
-				expense.setApproved("Pending");
+				//expense.setAmount(Double.parseDouble(amountET.getText().toString()));
+				try{
+					value = Double.parseDouble(amountET.getText().toString());
+				}catch(NumberFormatException exc){
+					
+				}
+			
+				if(valid = true){
+					expense.setAuthor(ParseUser.getCurrentUser());
+					
+					expense.setVendor(vendorET.getText().toString());
+					expense.setExpenseDate(buttonTView.getText().toString());
+					expense.setNotes(notesET.getText().toString());
+					expense.setAuthor(user);
+					expense.setApproved("Pending");
+					expense.setAmount(value);
 				
-				expense.saveInBackground(new SaveCallback() {
+					expense.saveInBackground(new SaveCallback() {
+					
 
 					@Override
 					public void done(ParseException e) {
@@ -116,6 +156,10 @@ public class NewExpenseFragment extends Fragment{
 						}
 					}// end done
 				});
+			}else {
+				
+				
+			}
 				
 			}// end onClick
 		}); // end saveButton.setOnClickListener
@@ -144,6 +188,8 @@ public class NewExpenseFragment extends Fragment{
 		
 		if(photoFile != null){
 			expensePreview.setParseFile(photoFile);
+			
+			
 			expensePreview.loadInBackground(new GetDataCallback() {
 				@Override
 				public void done(byte[] data, com.parse.ParseException e){
@@ -152,6 +198,15 @@ public class NewExpenseFragment extends Fragment{
 			}); 
 		}  
 	}// END onResume()
-	
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear,
+			int dayOfMonth) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void updateDateTextView(String dateStr){
+		buttonTView.setText(dateStr);
+	}
 	
 } // END NewExpenseFragment

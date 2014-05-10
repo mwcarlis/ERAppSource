@@ -48,13 +48,14 @@
             android:text="Receipt Date:" />
 
         <EditText
-            android:id="@+id/purchase_date_et"
-            android:layout_width="wrap_content"
+            android:id="@+id/buttonTextView"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:ems="10"
-            android:inputType="date" />
+            android:layout_marginLeft="32dp"
+            android:focusableInTouchMode="false"
+            android:clickable="true"
+            android:onClick="showDatePickerDialog"
+            android:text="M/D/Y" />
 
     </LinearLayout>
     
@@ -164,7 +165,5 @@
         	android:layout_height="200dp" />
         
 	</LinearLayout>
-    
-    
 
 </RelativeLayout>
