@@ -6,12 +6,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.ImageReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseException;
@@ -19,7 +19,6 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 
@@ -31,7 +30,7 @@ public class SimpleAdapter extends BaseAdapter
 	Context context;
 	LayoutInflater inflater;
 	ParseUser user;
-	//ImageView
+	
 	
 	public class ViewHolder 
 	{
@@ -41,6 +40,7 @@ public class SimpleAdapter extends BaseAdapter
 	    TextView purchaseDate;
 	    TextView note;
 	    ParseImageView receipt;
+	    ImageView listImage;
 	}
 	
 	public SimpleAdapter(Context context, final ParseUser user)
@@ -71,6 +71,7 @@ public class SimpleAdapter extends BaseAdapter
 			{
 				
 				ParseFile image = (ParseFile) ((Expense) currentExpense).getPhotoFile();
+				ParseFile payImageT = (ParseFile) ( (Expense)currentExpense).getPaymentType();
 				localExpense current = new localExpense();
 				current.setUserId(user);
 				current.setDate(((Expense) currentExpense).getExpenseDate());
@@ -79,6 +80,12 @@ public class SimpleAdapter extends BaseAdapter
 				current.setNotes(((Expense) currentExpense).getNotes());
 				current.setStatus(((Expense) currentExpense).getApproved());
 				current.setObjectId(currentExpense.getObjectId());
+				
+				if(payImageT != null)
+				{
+					current.setPaymentType(payImageT);
+				}
+				
 				if(image != null)
 				{
 					current.setPhotoFile(image);
@@ -129,7 +136,7 @@ public class SimpleAdapter extends BaseAdapter
 			holder.vendor = (TextView)v.findViewById(R.id.firstLine);
 			holder.ammount = (TextView)v.findViewById(R.id.ammountLine);
 			holder.approved = (TextView)v.findViewById(R.id.approvedLine);
-			
+			holder.listImage = (ImageView)v.findViewById(R.id.icon);
 			v.setTag(holder);
 		}
 		else 
@@ -150,6 +157,8 @@ public class SimpleAdapter extends BaseAdapter
 		holder.vendor.setText(arraylist.get(position).getVendor());
 		holder.ammount.setText( Double.toString(arraylist.get(position).getAmount()));
 		holder.approved.setText(arraylist.get(position).getStatus());
+		holder.listImage.setImageBitmap(arraylist.get(position).getPaymentType());
+		
 		
 		
 		v.setOnClickListener(new OnClickListener() 

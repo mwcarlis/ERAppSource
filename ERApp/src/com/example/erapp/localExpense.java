@@ -1,5 +1,9 @@
 package com.example.erapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -13,6 +17,7 @@ public class localExpense
 	private String objectId;
 	private ParseUser userId;
 	private ParseFile photoFile;
+	private Bitmap paymentTypeImage;
 	
 	public String getVendor()
 	{
@@ -92,6 +97,16 @@ public class localExpense
 	public void setPhotoFile(ParseFile photoFile)
 	{
 		this.photoFile = photoFile;
+	}
+	public Bitmap getPaymentType()
+	{
+		return paymentTypeImage;
+	}
+	public void setPaymentType(ParseFile payType) throws ParseException
+	{
+		byte[] bites = payType.getData();
+		Bitmap bm = BitmapFactory.decodeByteArray(bites, 0, bites.length);
+		this.paymentTypeImage = bm;
 	}
 	
 	
