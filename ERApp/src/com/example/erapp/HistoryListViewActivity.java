@@ -99,8 +99,8 @@ public class HistoryListViewActivity extends Activity {
 	{
 		
 		list.setAdapter(adapter);
-		adapter.notifyDataSetChanged();
-		this.recreate();
+		//adapter.notifyDataSetChanged();
+		//this.recreate();
 	}
 	
 	private void newExpense()

@@ -57,6 +57,7 @@ public class SimpleAdapter extends BaseAdapter
 		this.user = user;
 		inflater = LayoutInflater.from(context);
 		this.context = context;
+		
 	    this.arraylist = new ArrayList<Expense>();
 	   // this.expenseList = new List<Expense>();
 	    
@@ -79,7 +80,6 @@ public class SimpleAdapter extends BaseAdapter
 				current.setNotes(((Expense) currentExpense).getNotes());
 				current.setApproved(((Expense) currentExpense).getApproved());
 				
-				
 				arraylist.add(current);
 				
 			}
@@ -91,11 +91,6 @@ public class SimpleAdapter extends BaseAdapter
 	    {
 			e.printStackTrace();
 		}
-	    System.out.println("I added it all!!");
-	    
-	    
-	    
-
 	}//end SimpleAdapter constructor
 	
 	@Override
@@ -124,17 +119,17 @@ public class SimpleAdapter extends BaseAdapter
 		if( v == null)
 		{
 			holder = new ViewHolder();
-			v = View.inflate(context, R.layout.list_item, null);
+			v = inflater.inflate(R.layout.list_item, null);
 			
 			holder.purchaseDate = (TextView)v.findViewById(R.id.secondLine);
 			holder.vendor = (TextView)v.findViewById(R.id.firstLine);
 			holder.ammount = (TextView)v.findViewById(R.id.ammountLine);
 			holder.approved = (TextView)v.findViewById(R.id.approvedLine);
+			v.setTag(holder);
 		}
 		else 
 		{
-		      holder = (ViewHolder) v.getTag();
-		      return v;
+		    holder = (ViewHolder) v.getTag();
 		 }
 		
 		
