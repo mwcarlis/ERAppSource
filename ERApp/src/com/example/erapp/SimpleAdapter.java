@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -25,8 +25,8 @@ import com.parse.ParseUser;
 
 public class SimpleAdapter extends BaseAdapter
 {
-	private ArrayList<Expense> arraylist;	
-	private List<Expense> expenseList;
+	private ArrayList<localExpense> arraylist;	
+	//private List<Expense> expenseList;
 	List<ParseObject> ob;
 	Context context;
 	LayoutInflater inflater;
@@ -40,7 +40,7 @@ public class SimpleAdapter extends BaseAdapter
 	    TextView ammount;
 	    TextView purchaseDate;
 	    TextView note;
-	    ImageView receipt;
+	    ParseImageView receipt;
 	}
 	
 	public SimpleAdapter(Context context, final ParseUser user)
@@ -57,8 +57,8 @@ public class SimpleAdapter extends BaseAdapter
 		this.user = user;
 		inflater = LayoutInflater.from(context);
 		this.context = context;
-	    this.arraylist = new ArrayList<Expense>();
-	   // this.expenseList = new List<Expense>();
+		
+	    this.arraylist = new ArrayList<localExpense>();
 	    
 	    try 
 	    {
@@ -71,14 +71,18 @@ public class SimpleAdapter extends BaseAdapter
 			{
 				
 				ParseFile image = (ParseFile) ((Expense) currentExpense).getPhotoFile();
-				Expense current = new Expense();
-				current.setAuthor(user);
-				current.setExpenseDate(((Expense) currentExpense).getExpenseDate());
+				localExpense current = new localExpense();
+				current.setUserId(user);
+				current.setDate(((Expense) currentExpense).getExpenseDate());
 				current.setVendor(((Expense) currentExpense).getVendor());
 				current.setAmount(((Expense) currentExpense).getAmount());
 				current.setNotes(((Expense) currentExpense).getNotes());
-				current.setApproved(((Expense) currentExpense).getApproved());
-				
+				current.setStatus(((Expense) currentExpense).getApproved());
+				current.setObjectId(currentExpense.getObjectId());
+				if(image != null)
+				{
+					current.setPhotoFile(image);
+				}
 				
 				arraylist.add(current);
 				
@@ -91,11 +95,6 @@ public class SimpleAdapter extends BaseAdapter
 	    {
 			e.printStackTrace();
 		}
-	    System.out.println("I added it all!!");
-	    
-	    
-	    
-
 	}//end SimpleAdapter constructor
 	
 	@Override
@@ -111,7 +110,7 @@ public class SimpleAdapter extends BaseAdapter
 	  }
 	
 	 @Override
-	 public Expense getItem(int position) 
+	 public localExpense getItem(int position) 
 	 {
 		  return arraylist.get(position);
       }
@@ -124,17 +123,18 @@ public class SimpleAdapter extends BaseAdapter
 		if( v == null)
 		{
 			holder = new ViewHolder();
-			v = View.inflate(context, R.layout.list_item, null);
+			v = inflater.inflate(R.layout.list_item, null);
 			
 			holder.purchaseDate = (TextView)v.findViewById(R.id.secondLine);
 			holder.vendor = (TextView)v.findViewById(R.id.firstLine);
 			holder.ammount = (TextView)v.findViewById(R.id.ammountLine);
 			holder.approved = (TextView)v.findViewById(R.id.approvedLine);
+			
+			v.setTag(holder);
 		}
 		else 
 		{
-		      holder = (ViewHolder) v.getTag();
-		      return v;
+		    holder = (ViewHolder) v.getTag();
 		 }
 		
 		
@@ -146,32 +146,50 @@ public class SimpleAdapter extends BaseAdapter
 		TextView approved = (TextView)v.findViewById(R.id.approvedLine);*/
 		//ImageView paymentType = (ImageView)vi.findViewById(R.id.icon);
 		
-		holder.purchaseDate.setText(arraylist.get(position).getExpenseDate());
+		holder.purchaseDate.setText(arraylist.get(position).getDate());
 		holder.vendor.setText(arraylist.get(position).getVendor());
 		holder.ammount.setText( Double.toString(arraylist.get(position).getAmount()));
-		holder.approved.setText(arraylist.get(position).getApproved());
+		holder.approved.setText(arraylist.get(position).getStatus());
 		
 		
 		v.setOnClickListener(new OnClickListener() 
 		{
 			 public void onClick(View arg0) 
 		      {
-		        // Send single item click data to SingleItemView Class
+		        // Send single item click data to ViewExpenseActivity Class
 		        Intent intent = new Intent(context, ViewExpenseActivity.class);
-		        // Pass all data rank
+		        // Pass all data Vendor
 		        intent.putExtra("Vendor",
 		            (arraylist.get(position).getVendor()));
-		        // Pass all data country
+		        // Pass all data purchaseDate
 		        intent.putExtra("purchaseDate",
-		            (arraylist.get(position).getExpenseDate()));
-		        // Pass all data population
-		        intent.putExtra("ammount",
+		            (arraylist.get(position).getDate()));
+		        // Pass all data amount
+		        intent.putExtra("amount",
 		            (Double.toString(arraylist.get(position).getAmount())));
-		        // Pass all data flag
+		        // Pass all data pending
 		        intent.putExtra("pending",
-		            (arraylist.get(position).getApproved()));
+		            (arraylist.get(position).getStatus()));
+		       // Pass all data note
+		        
 		        intent.putExtra("note",
 			            (arraylist.get(position).getNotes()));
+		        
+		        intent.putExtra("objectId",
+			            (arraylist.get(position).getObjectId()));
+		        try
+		        {
+		        	if(arraylist.get(position).getPhotoFile() != null)
+		        	{
+		        		System.out.println("it wasn't null!");
+		        		intent.putExtra("image",
+					        (arraylist.get(position).getPhotoFile()).getData());
+		        	}
+				} catch (ParseException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		        // Start SingleItemView Class
 		        context.startActivity(intent);
 		      }
