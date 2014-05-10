@@ -1,6 +1,7 @@
 package com.example.erapp;
 
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -9,18 +10,20 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.nfc.FormatException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.GetDataCallback;
@@ -33,7 +36,8 @@ import com.parse.SaveCallback;
 public class NewExpenseFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 	
 	
-	//private ParseImageView expensePreview;	
+	//private ParseImageView expensePreview;
+	String selected="Cash";
 	private EditText vendorET;
 	private EditText purchaseDateET;
 	private EditText amountET;
@@ -56,8 +60,7 @@ public class NewExpenseFragment extends DialogFragment implements DatePickerDial
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		//setHasOptionsMenu(true);
-		
+		//setHasOptionsMenu(true);	
 	}
 
 	
@@ -79,6 +82,8 @@ public class NewExpenseFragment extends DialogFragment implements DatePickerDial
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		payment_type.setAdapter(adapter);
+		
+		payment_type.setOnItemSelectedListener(new spinnerItemSelectedListener());
 		
 		
 		buttonTView.setOnClickListener(new View.OnClickListener() {
@@ -119,30 +124,66 @@ public class NewExpenseFragment extends DialogFragment implements DatePickerDial
 			public void onClick(View v) {
 				
 				boolean valid = true;
-				double value=0;
+				double value=0.00;
+				String vendor = "";
+				String expenseDate = "";
+				String notes = "";
 				Expense expense = ((NewExpenseActivity) getActivity()).getCurrentExpense();
-
 				
-				//expense.setAmount(Double.parseDouble(amountET.getText().toString()));
+				vendor = vendorET.getText().toString();
+				expenseDate = buttonTView.getText().toString();
+				notes = notesET.getText().toString();
+							
+
 				try{
-					value = Double.parseDouble(amountET.getText().toString());
+					value = Double.parseDouble(amountET.getText().toString());					
 				}catch(NumberFormatException exc){
-					
+					valid=false;
 				}
 			
-				if(valid = true){
+				if(valid != false && vendor.length() != 0 && !expenseDate.equals("M/D/Y") ){
 					expense.setAuthor(ParseUser.getCurrentUser());
-					
-					expense.setVendor(vendorET.getText().toString());
-					expense.setExpenseDate(buttonTView.getText().toString());
-					expense.setNotes(notesET.getText().toString());
+					expense.setVendor(vendor);
+					expense.setExpenseDate(expenseDate);
+					expense.setNotes(notes);
 					expense.setAuthor(user);
 					expense.setApproved("Pending");
 					expense.setAmount(value);
-				
-					expense.saveInBackground(new SaveCallback() {
+					
+					Bitmap icon = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(),
+                            R.drawable.other);
+					
+					if(selected.equals("Cash")){
+						icon = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(),
+	                            R.drawable.cash);
+						expense.setPaymentType(scaleData(icon));
+					}else if(selected.equals("Credit")){
+						icon = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(),
+	                            R.drawable.card);
+						expense.setPaymentType(scaleData(icon));
+					}else if (selected.equals("Debit")){
+						icon = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(),
+	                            R.drawable.card);
+						expense.setPaymentType(scaleData(icon));
+					}else if (selected.equals("Check")){
+						icon = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(),
+	                            R.drawable.check);
+						expense.setPaymentType(scaleData(icon));
+					
+					}else if(selected.equals("Gold")){
+						icon = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(),
+	                            R.drawable.gold);
+						expense.setPaymentType(scaleData(icon));
+					}else if(selected.equals("Other")){
+						expense.setPaymentType(scaleData(icon));
+					}else {
+						expense.setPaymentType(scaleData(icon));
+					}
+					
 					
 
+					expense.saveInBackground(new SaveCallback() {
+					
 					@Override
 					public void done(ParseException e) {
 						if (e == null) {
@@ -156,13 +197,13 @@ public class NewExpenseFragment extends DialogFragment implements DatePickerDial
 						}
 					}// end done
 				});
-			}else {
-				
-				
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(),"Not enough Information", Toast.LENGTH_SHORT).show();
 			}
 				
 			}// end onClick
 		}); // end saveButton.setOnClickListener
+
 		
 		expensePreview = (ParseImageView) v.findViewById(R.id.expense_preview_image);
 		expensePreview.setVisibility(View.INVISIBLE);
@@ -207,6 +248,25 @@ public class NewExpenseFragment extends DialogFragment implements DatePickerDial
 	}
 	public void updateDateTextView(String dateStr){
 		buttonTView.setText(dateStr);
+	}
+	
+	public class spinnerItemSelectedListener implements OnItemSelectedListener {
+
+	    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+	        selected = parent.getItemAtPosition(pos).toString();
+	    }
+
+	    public void onNothingSelected(AdapterView parent) {
+	        // Do nothing.
+	    }
+	}
+	
+	public ParseFile scaleData(Bitmap image){
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		image.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+		byte[] scaledData=bos.toByteArray();
+		ParseFile paymentFile = new ParseFile("payment_type_photo.jpg", scaledData);
+		return paymentFile;
 	}
 	
 } // END NewExpenseFragment

@@ -4,16 +4,17 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:padding="6dip" >
 
-    <ImageView
+   
+    <com.parse.ParseImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:gravity="center_vertical"
         android:layout_marginRight="6dip"
         android:contentDescription="@string/TODO"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/card" />
     
     <TextView
         android:id="@+id/firstLine"
