@@ -27,6 +27,7 @@ public class HistoryListViewActivity extends Activity {
 	ListView list;
 	SimpleAdapter adapter;
 	ParseUser user;
+	String csv_String;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -36,7 +37,7 @@ public class HistoryListViewActivity extends Activity {
 		{
 			getActionBar().setDisplayHomeAsUpEnabled(false);
 			setContentView(R.layout.history_list);
-			
+			csv_String = "";
 			Intent intent = getIntent();
 			list = (ListView)findViewById(R.id.list);
 			
@@ -71,12 +72,9 @@ public class HistoryListViewActivity extends Activity {
 			ParseUser whoAmI = ParseUser.getCurrentUser();
 			if(whoAmI.getBoolean("emailVerified") == true){
 				
-				DBAdapter adaptDB = new DBAdapter();
-				String csv_Format = formatCSV(adaptDB.getExpenseList());
-			
 				File file   = null;
 				File root   = Environment.getExternalStorageDirectory();
-				Uri u1 = fileURI(root, csv_Format);
+				Uri u1 = fileURI(root, csv_String);
 				Intent i = new Intent(Intent.ACTION_SEND);
 				i.setType("message/rfc822");
 				i.putExtra(Intent.EXTRA_EMAIL,  whoAmI.getEmail() );
@@ -121,7 +119,10 @@ public class HistoryListViewActivity extends Activity {
 		@Override
 		protected ArrayList<localExpense> doInBackground(String... params) {
 			DBAdapter adaptDB = new DBAdapter();
-			return adaptDB.getExpenseList();
+			ArrayList<localExpense> exp = null;
+			exp = adaptDB.getExpenseList();
+			csv_String = formatCSV(exp);
+			return exp;
 		}
 		
 		@Override
@@ -129,11 +130,15 @@ public class HistoryListViewActivity extends Activity {
 			super.onPostExecute(result);
 			adapter.setExpenseList(result);
 			adapter.notifyDataSetChanged();
+			dialog.dismiss();
 		}
 		
 		@Override
 		protected void onPreExecute(){
 			super.onPreExecute();
+			dialog.setTitle("Please wait.");
+			dialog.setMessage("Dialing Jenny's Number\n\t\t867-5309");
+			dialog.show();
 		}
 		
 	}
