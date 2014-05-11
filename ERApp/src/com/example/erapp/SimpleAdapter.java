@@ -43,12 +43,15 @@ public class SimpleAdapter extends BaseAdapter
 	    ImageView listImage;
 	}
 	
+	public void setExpenseList(ArrayList<localExpense> expenseArrayList){
+		this.arraylist = expenseArrayList;
+	}
+	
 	public SimpleAdapter(Context context, final ParseUser user, ArrayList<localExpense> array)
 	{
 		this.user = user;
 		inflater = LayoutInflater.from(context);
 		this.context = context;
-		
 	    this.arraylist = array;
 	    
 	    

@@ -8,9 +8,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -39,10 +41,10 @@ public class HistoryListViewActivity extends Activity {
 			list = (ListView)findViewById(R.id.list);
 			
 			user = ParseUser.getCurrentUser();
-			DBAdapter adaptDB = new DBAdapter();
-			adapter = new SimpleAdapter(this, user, adaptDB.getExpenseList());//POSSIBLE HAZARD IF NULL
+			adapter = new SimpleAdapter(this, user, new ArrayList<localExpense>());//POSSIBLE HAZARD IF NULL
 
 			list.setAdapter(adapter);	
+			(new AsyncListLoader()).execute("");
 		}
 		else 
 		{
@@ -74,38 +76,14 @@ public class HistoryListViewActivity extends Activity {
 			
 				File file   = null;
 				File root   = Environment.getExternalStorageDirectory();
-				if (root.canWrite()){
-				    File dir    =   new File (root.getAbsolutePath() + "/PersonData");
-				     dir.mkdirs();
-				     file   =   new File(dir, "Data.csv");
-				     FileOutputStream out   =   null;
-				    try {
-				        out = new FileOutputStream(file);
-				        } catch (FileNotFoundException e) {
-				            e.printStackTrace();
-				        }
-				        try {
-				            out.write(csv_Format.getBytes());
-				        } catch (IOException e) {
-				            e.printStackTrace();
-				        }
-				        try {
-				            out.close();
-				        } catch (IOException e) {
-				            e.printStackTrace();
-				        }
-				    }
-				
-				Uri u1  =   null;
-				u1  =   Uri.fromFile(file);
-				
-
+				Uri u1 = fileURI(root, csv_Format);
 				Intent i = new Intent(Intent.ACTION_SEND);
 				i.setType("message/rfc822");
 				i.putExtra(Intent.EXTRA_EMAIL,  whoAmI.getEmail() );
 				i.putExtra(Intent.EXTRA_SUBJECT, ".csv formatted expense history");
 				i.putExtra(Intent.EXTRA_TEXT, "Here's your comma seperated email bro");
 				i.putExtra(Intent.EXTRA_STREAM, u1);
+				
 				try {
 				    startActivity(Intent.createChooser(i, "Send mail..."));
 					//Toast.makeText(HistoryListViewActivity.this, csv_Format.substring(0, 200), Toast.LENGTH_SHORT).show();
@@ -137,6 +115,31 @@ public class HistoryListViewActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}// end onOptionsItemSelected
 	
+	private class AsyncListLoader extends AsyncTask<String, Void, ArrayList<localExpense>>{
+		private final ProgressDialog dialog = new ProgressDialog(HistoryListViewActivity.this);
+		
+		@Override
+		protected ArrayList<localExpense> doInBackground(String... params) {
+			DBAdapter adaptDB = new DBAdapter();
+			return adaptDB.getExpenseList();
+		}
+		
+		@Override
+		protected void onPostExecute(ArrayList<localExpense> result){
+			super.onPostExecute(result);
+			adapter.setExpenseList(result);
+			adapter.notifyDataSetChanged();
+		}
+		
+		@Override
+		protected void onPreExecute(){
+			super.onPreExecute();
+		}
+		
+	}
+	
+	
+	
 	private void  updateExpenseList()
 	{
 		adapter=null;  // Must refresh the adapters items.
@@ -158,8 +161,9 @@ public class HistoryListViewActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		if(resultCode == Activity.RESULT_OK)
-		{
-			updateExpenseList();
+		{	
+			(new AsyncListLoader()).execute("");
+			//updateExpenseList();
 		}
 	}
 
@@ -184,6 +188,8 @@ public class HistoryListViewActivity extends Activity {
 	    }).setNegativeButton("No", null).show();
 	}//end onBackPressed()
 	
+	
+	
 	public String formatCSV(ArrayList<localExpense> expList){
 		int iterExpenses;
 		ParseUser locUser = ParseUser.getCurrentUser();
@@ -199,6 +205,36 @@ public class HistoryListViewActivity extends Activity {
 		}
 		return csvStr;
 	}// end formatCSV
+	
+	// Precondition: root is a storage location to store a file.  format is a non empty string
+	// Postcondition: Uri address of a created file from 'format' has been created at this Uri location
+	public Uri fileURI(File root, String format){ 
+		File file = null;
+		if (root.canWrite()){
+		    File dir    =   new File (root.getAbsolutePath() + "/PersonData");
+		     dir.mkdirs();
+		     file   =   new File(dir, "Data.csv");
+		     FileOutputStream out   =   null;
+		    try {
+		        out = new FileOutputStream(file);
+		        } catch (FileNotFoundException e) {
+		            e.printStackTrace();
+		        }
+		        try {
+		            out.write(format.getBytes());
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		        try {
+		            out.close();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		    }
+		Uri u1  =   null;
+		u1  =   Uri.fromFile(file);
+		return u1;
+	}// end fileURI
 	
 	
 }//END HistoryListViewActivity
