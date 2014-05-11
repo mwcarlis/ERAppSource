@@ -43,84 +43,34 @@ public class SimpleAdapter extends BaseAdapter
 	    ImageView listImage;
 	}
 	
-	public SimpleAdapter(Context context, final ParseUser user)
+	public SimpleAdapter(Context context, final ParseUser user, ArrayList<localExpense> array)
 	{
-		/*super(context, new ParseQueryAdapter.QueryFactory<Expense>() {
-			public ParseQuery<Expense> create() {
-				ParseQuery query = new ParseQuery("Expense");
-				query.orderByAscending("createdAt");
-				query.whereEqualTo("user", user);
-				return query;
-			}
-		});*/
-		//this.expenseList = new expenseList;
 		this.user = user;
 		inflater = LayoutInflater.from(context);
 		this.context = context;
 		
-	    this.arraylist = new ArrayList<localExpense>();
+	    this.arraylist = array;
 	    
-	    try 
-	    {
-	    	ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
-	            "Expense");
-	    	query.orderByAscending("createdAt");
-	    	query.whereEqualTo("user", user);
-			ob = query.find();
-			for (ParseObject currentExpense : ob)
-			{
-				
-				ParseFile image = (ParseFile) ((Expense) currentExpense).getPhotoFile();
-				ParseFile payImageT = (ParseFile) ( (Expense)currentExpense).getPaymentType();
-				localExpense current = new localExpense();
-				current.setUserId(user);
-				current.setDate(((Expense) currentExpense).getExpenseDate());
-				current.setVendor(((Expense) currentExpense).getVendor());
-				current.setAmount(((Expense) currentExpense).getAmount());
-				current.setNotes(((Expense) currentExpense).getNotes());
-				current.setStatus(((Expense) currentExpense).getApproved());
-				current.setObjectId(currentExpense.getObjectId());
-				
-				if(payImageT != null)
-				{
-					current.setPaymentType(payImageT);
-				}
-				
-				if(image != null)
-				{
-					current.setPhotoFile(image);
-				}
-				
-				arraylist.add(current);
-				
-			}
-			Collections.reverse(arraylist);
-			
-			
-		} 
-	    catch (ParseException e) 
-	    {
-			e.printStackTrace();
-		}
+	    
 	}//end SimpleAdapter constructor
 	
 	@Override
-	 public int getCount() 
-	 {
-	    return arraylist.size();
-	  }
+	public int getCount() 
+	{
+		return arraylist.size();
+	}
 	
 	@Override
-	  public long getItemId(int position) 
-	  {
-	    return position;
-	  }
+	public long getItemId(int position) 
+	{
+		return position;
+	}
 	
-	 @Override
-	 public localExpense getItem(int position) 
-	 {
-		  return arraylist.get(position);
-      }
+	@Override
+	public localExpense getItem(int position) 
+	{
+		return arraylist.get(position);
+    }// end getItem
 	
 
 
@@ -145,17 +95,9 @@ public class SimpleAdapter extends BaseAdapter
 		 }
 		
 		
-		//super.getItemView(expense, v, parent);
-		
-		/*TextView purchaseDate = (TextView)v.findViewById(R.id.secondLine);
-		TextView seller = (TextView)v.findViewById(R.id.firstLine);
-		TextView ammount = (TextView)v.findViewById(R.id.ammountLine);
-		TextView approved = (TextView)v.findViewById(R.id.approvedLine);*/
-		//ImageView paymentType = (ImageView)vi.findViewById(R.id.icon);
-		
 		holder.purchaseDate.setText(arraylist.get(position).getDate());
 		holder.vendor.setText(arraylist.get(position).getVendor());
-		holder.ammount.setText( Double.toString(arraylist.get(position).getAmount()));
+		holder.ammount.setText( "$"+Double.toString(arraylist.get(position).getAmount()));
 		holder.approved.setText(arraylist.get(position).getStatus());
 		holder.listImage.setImageBitmap(arraylist.get(position).getPaymentType());
 		
@@ -203,16 +145,7 @@ public class SimpleAdapter extends BaseAdapter
 		        context.startActivity(intent);
 		      }
 		    });
-
-		
-
 		return v;
-	}
+	}// end getView
 
-	/*public View getView(int arg0, View arg1, ViewGroup arg2) 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	*/
-}
+}// end SimpleAdapter

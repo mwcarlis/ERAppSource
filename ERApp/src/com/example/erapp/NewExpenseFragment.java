@@ -103,8 +103,8 @@ public class NewExpenseFragment extends DialogFragment implements DatePickerDial
 			
 			@Override
 			public void onClick(View v) {
-				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-				//imm.hideSoftInputFromWindow(expenseName, flags)
+				final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+			    imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 				startCamera();
 			}
 		}); // end photoButton.setOnClickListener
