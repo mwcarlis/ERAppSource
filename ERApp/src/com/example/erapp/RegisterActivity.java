@@ -18,6 +18,7 @@ public class RegisterActivity extends MainActivity
 	private EditText username;
     private EditText password;
     private EditText passwordAgain;
+    private EditText emailText;
     
     
 	public void onCreate(Bundle savedInstanceState)
@@ -29,6 +30,7 @@ public class RegisterActivity extends MainActivity
 		passwordAgain = (EditText)findViewById(R.id.password_again_et);
 		username = (EditText)findViewById(R.id.enterUsername);
         password = (EditText)findViewById(R.id.editText2);
+        emailText = (EditText)findViewById(R.id.emailET);
         
         register = (Button)findViewById(R.id.registerButton);
         register.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +44,10 @@ public class RegisterActivity extends MainActivity
 		        if (isEmpty(username)) {
 		          validationError = true;
 		          validationErrorMessage.append(getResources().getString(R.string.error_blank_username));
+		        }
+		        if (isEmpty(emailText)){
+		        	validationError=true;
+		        	validationErrorMessage.append("Invalid email type");
 		        }
 		        if (isEmpty(password)) {
 		          if (validationError) {
@@ -77,6 +83,7 @@ public class RegisterActivity extends MainActivity
 		        ParseUser user = new ParseUser();
 		        user.setUsername(username.getText().toString());
 		        user.setPassword(password.getText().toString());
+		        user.setEmail(emailText.getText().toString());
 		        // Call the Parse signup method
 		        user.signUpInBackground(new SignUpCallback() {
 
@@ -87,8 +94,8 @@ public class RegisterActivity extends MainActivity
 		              // Show the error message
 		              Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 		            } else {
-		              // Start an intent for the dispatch activity
-		              Intent intent = new Intent(RegisterActivity.this, DispatchActivity.class);
+		              // Start an intent for the main activity
+		              Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
 		              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		              startActivity(intent);
 		            }
